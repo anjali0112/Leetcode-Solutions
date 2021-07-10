@@ -1,0 +1,37 @@
+   int pickPivot(vector<vector<int>> &v ,int start ,int end)
+    {
+        int pivot=end;
+        int i=start-1,pivotDist=v[pivot][0]*v[pivot][0] + v[pivot][1]*v[pivot][1];
+        for(int j=start;j<end;j++)
+        {
+            if(v[j][0]*v[j][0] + v[j][1]*v[j][1] < pivotDist)
+            {
+                i++;
+                swap(v[j] , v[i]);
+            }
+        }
+        
+        swap(v[end] , v[i+1]);
+        return i+1;
+         
+    }
+    void quickSelect(vector<vector<int>> &v, int start ,int end ,int k)
+    {
+        if(start<=end)
+        {
+        int pivot=pickPivot(v,start,end);
+        if(pivot == k)
+            return;
+        else if(pivot < k)
+         quickSelect(v , pivot +1 ,end ,k);
+        
+           else quickSelect(v,start ,pivot -1,k);
+        }
+        return;
+    }
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        quickSelect(points,0,points.size()-1,k);
+        return vector<vector<int>>(points.begin() , points.begin() + k);
+    }
+    
